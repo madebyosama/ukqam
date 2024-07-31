@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Fuse from 'fuse.js';
 import styles from './page.module.css';
 
 type CompanyData = {
@@ -30,17 +31,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setFilteredData(
-      data.filter(
-        (item) =>
-          item.Company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item['Contact Person']
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          item.Phone.includes(searchTerm) ||
-          item.Email.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
+    if (searchTerm === '') {
+      setFilteredData(data);
+    } else {
+      const fuse = new Fuse(data, {
+        keys: ['Company', 'Contact Person', 'Phone', 'Email'],
+        threshold: 0.3, // Adjust this value to control the sensitivity of the fuzzy search
+      });
+      const result = fuse.search(searchTerm);
+      setFilteredData(result.map(({ item }) => item));
+    }
   }, [searchTerm, data]);
 
   return (

@@ -1,15 +1,23 @@
 .main {
   padding: 20px;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Ensure children take up full width */
 }
 
 .searchInput {
-  width: 100%;
+  width: 98%; /* Full width of the container */
   padding: 10px;
-  margin-bottom: 20px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  margin-bottom: 20px;
 }
 
 .tableContainer {
@@ -41,13 +49,13 @@
 
 /* Responsive styles */
 @media (max-width: 600px) {
-  .table th,
-  .table td {
+  .searchInput {
     padding: 8px;
     font-size: 14px;
   }
 
-  .searchInput {
+  .table th,
+  .table td {
     padding: 8px;
     font-size: 14px;
   }
